@@ -1,11 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import Navigation from "./components/Navigation/Navigation";
 
 class App extends Component {
   render() {
     return (
-      <h1>Face Recognition</h1>
-    );
-  };
-};
+      <div className="App">
+        <Navigation />
+
+      </div>
+    )
+  }
+}
 
 export default App;
