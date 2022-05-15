@@ -3,6 +3,7 @@ import Navigation from "./components/Navigation/Navigation";
 import Logo from "./components/Logo/Logo";
 import Rank from "./components/Rank/Rank";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
+import FaceRecognition from "./components/FaceRecognition/FaceRecognition";
 import Clarifai from "clarifai;";
 import "./App.css";
 
@@ -15,22 +16,23 @@ class App extends Component {
     super();
     this.state = {
       input: "",
+      imageUrl: "",
     };
   }
   onInputChange = (event) => {
-    console.log(event.target.value);
+    this.state({ input: event.target.value });
   };
 
   onSubmit = () => {
-    App.models
-      .predict(
-        "a4032429f2ddf4b49b307e318f00e528b",
-        "https://samples.clarifai.com/face-det.jpg"
-      )
-      .then({
-        function(response) {},
-        function(err) {},
-      });
+    this.setState({ imageUrl: this.state.input });
+    app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input).then({
+      function(response) {
+        console.log(
+          response.outputs[0].data.regions[0].region_infor.bounding_box
+        );
+      },
+      function(err) {},
+    });
   };
 
   render() {
@@ -43,6 +45,7 @@ class App extends Component {
           onInputChange={this.onInputChange}
           onButtonSubmit={this.onSubmit}
         />
+        <FaceRecognition imageUrl={this.state.imageUrl} />
       </div>
     );
   }
